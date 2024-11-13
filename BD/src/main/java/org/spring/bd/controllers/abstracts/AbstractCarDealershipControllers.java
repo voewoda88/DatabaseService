@@ -5,18 +5,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spring.bd.configuration.GlobalExceptionHandler;
 import org.spring.bd.core.dto.AutomobileDTO;
 import org.spring.bd.core.dto.CarDealershipDTO;
-import org.spring.bd.services.Impl.sql.AutomobileService;
-import org.spring.bd.services.Impl.sql.CarDealershipService;
 import org.spring.bd.services.ServiceInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -87,5 +85,35 @@ public class AbstractCarDealershipControllers {
         List<CarDealershipDTO> carDealerships = carDealershipService.getAllRecords();
 
         return ResponseEntity.status(HttpStatus.OK).body(carDealerships);
+    }
+
+    @PostMapping
+    @Operation(summary = "Save", description = "Allows to add/save new record")
+    public ResponseEntity<CarDealershipDTO> saveCarDealership(@Valid @RequestBody CarDealershipDTO carDealership) {
+        logger.info("Saving car dealership with name={}", carDealership.getName());
+
+        CarDealershipDTO carDealershipDTO = carDealershipService.saveRecord(carDealership);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(carDealershipDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete", description = "Allows to delete existing record by its id")
+    public ResponseEntity<Void> deleteCarDealership(@PathVariable Integer id) {
+        logger.info("Deleting car dealership with id={}", id);
+
+        carDealershipService.deleteRecordById(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @DeleteMapping("/all")
+    @Operation(summary = "Delete all", description = "Allows to delete all existing records")
+    public ResponseEntity<Void> deleteAllCategories() {
+        logger.info("Deleting all car dealerships");
+
+        carDealershipService.deleteAllRecords();
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
