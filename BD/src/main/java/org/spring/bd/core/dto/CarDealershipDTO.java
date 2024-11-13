@@ -14,41 +14,40 @@ import java.util.Set;
 @Data
 @Builder
 @EqualsAndHashCode
-@Schema(description = "Entry to get/update/delete a record in \"car dealership\" table")
+@Schema(description = "Entry to save/get/update/delete a record in \"car dealership\" table")
 public class CarDealershipDTO {
     @NotNull
-    @Schema(description = "Unique identifier of the car dealership", accessMode = Schema.AccessMode.READ_ONLY)
+    @Schema(description = "Unique identifier of the car dealership", accessMode = Schema.AccessMode.READ_ONLY, example = "1")
     private Integer id;
 
     @NotNull
     @Size(max = 50)
     @Pattern(regexp = "^[A-Za-z0-9 .,-]+$", message = "Name must match the specified pattern")
-    @Schema(description = "Name of the car dealership")
+    @Schema(description = "Name of the car dealership", example = "AutoHub")
     private String name;
 
     @NotNull
     @Size(max = 100)
     @Pattern(regexp = "^[A-Za-z0-9 .,-]+$", message = "Address must match the specified pattern")
-    @Schema(description = "Address of the car dealership")
+    @Schema(description = "Address of the car dealership", example = "1234 Elm Street, Cityville")
     private String address;
 
     @NotNull
     @Size(max = 15)
     @Pattern(regexp = "^(\\+375(29|44|25|33))\\d{7}$", message = "Phone number must match the specified pattern")
-    @Schema(description = "Phone number of the car dealership")
+    @Schema(description = "Phone number of the car dealership", example = "+375291234567")
     private String phoneNumber;
 
     @NotNull
     @Email
     @Size(max = 255)
-    @Schema(description = "Email of the car dealership")
+    @Schema(description = "Email of the car dealership", example = "info@autohub.com")
     private String email;
 
     @NotNull
     @Size(max = 50)
-    @Pattern(regexp = "^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])-(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$",
-            message = "Working time must match the specified pattern")
-    @Schema(description = "Working time of the car dealership")
+    @Pattern(regexp = "^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])-(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$", message = "Working time must match the specified pattern")
+    @Schema(description = "Working time of the car dealership", example = "09:00-18:00")
     private String workingTime;
 
     @Schema(description = "Set of automobile IDs associated with this car dealership")
