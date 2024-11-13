@@ -1,0 +1,8 @@
+db = db.getSiblingDB('car_dealership_db');
+
+db.createCollection('automobiles');
+db.createCollection('buyer');
+db.createCollection('car_dealership');
+db.createCollection('car_dealership_has_automobiles');
+db.createCollection('employee');
+db.createCollection('order');
