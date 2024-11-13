@@ -4,6 +4,7 @@ import org.spring.bd.core.dto.CarDealershipDTO;
 import org.spring.bd.core.mappers.CarDealershipMapper;
 import org.spring.bd.entities.sql.CarDealership;
 import org.spring.bd.exceptions.ResourceNotFoundException;
+import org.spring.bd.repositories.sql.AutomobileRepository;
 import org.spring.bd.repositories.sql.CarDealershipRepository;
 import org.spring.bd.services.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,14 @@ public class CarDealershipService implements ServiceInterface<CarDealershipDTO, 
 
     private final CarDealershipMapper carDealershipMapper;
 
+    private final AutomobileRepository automobileRepository;
+
     @Autowired
-    public CarDealershipService(CarDealershipRepository carDealershipRepository, CarDealershipMapper carDealershipMapper) {
+    public CarDealershipService(CarDealershipRepository carDealershipRepository, CarDealershipMapper carDealershipMapper,
+                                AutomobileRepository automobileRepository) {
         this.carDealershipRepository = carDealershipRepository;
         this.carDealershipMapper = carDealershipMapper;
+        this.automobileRepository = automobileRepository;
     }
 
     @Override
@@ -45,7 +50,7 @@ public class CarDealershipService implements ServiceInterface<CarDealershipDTO, 
     @Override
     public CarDealershipDTO saveRecord(CarDealershipDTO record) {
         return carDealershipMapper.toDTO(
-                carDealershipRepository.save(carDealershipMapper.toEntity(record))
+                carDealershipRepository.save(carDealershipMapper.toEntity(record, automobileRepository))
         );
     }
 
@@ -56,7 +61,7 @@ public class CarDealershipService implements ServiceInterface<CarDealershipDTO, 
         }
 
         return carDealershipMapper.toDTO(
-                carDealershipRepository.save(carDealershipMapper.toEntity(record))
+                carDealershipRepository.save(carDealershipMapper.toEntity(record, automobileRepository))
         );
     }
 
