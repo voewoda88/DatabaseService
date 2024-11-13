@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Schema(description = "Entry to get/update/delete a record in \"automobiles\" table")
+@Schema(description = "Entry to save/get/update/delete a record in \"automobiles\" table")
 public class AutomobileDTO {
     @NotNull
     @Schema(description = "Unique identifier of the automobile", accessMode = Schema.AccessMode.READ_ONLY)
