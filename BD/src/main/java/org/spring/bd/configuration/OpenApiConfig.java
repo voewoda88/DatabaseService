@@ -18,5 +18,21 @@ import org.springframework.context.annotation.Configuration;
         )
 )
 
+@Configuration
 public class OpenApiConfig {
+    @Bean
+    public GroupedOpenApi mongoApi() {
+        return GroupedOpenApi.builder()
+                .group("mongo")
+                .pathsToMatch("/mongo/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi postgresApi() {
+        return GroupedOpenApi.builder()
+                .group("postgres")
+                .pathsToMatch("/postgres/**")
+                .build();
+    }
 }
