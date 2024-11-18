@@ -1,9 +1,13 @@
 package org.spring.bd.core.mappers;
 
-import io.swagger.v3.oas.annotations.media.Content;
+import jakarta.persistence.Entity;
+import jdk.jfr.Name;
+import org.bson.types.ObjectId;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import org.spring.bd.core.dto.AutomobileDTO;
+import org.spring.bd.entities.nosql.MongoAutomobile;
+import org.spring.bd.entities.nosql.MongoCarDealership;
 import org.spring.bd.entities.sql.Automobile;
 import org.spring.bd.entities.sql.CarDealership;
 import org.spring.bd.repositories.sql.CarDealershipRepository;
@@ -17,14 +21,23 @@ import java.util.Optional;
 public interface AutomobileMapper {
     AutomobileMapper INSTANCE = Mappers.getMapper(AutomobileMapper.class);
 
-    @Mapping(target = "carDealershipIds", source = "carDealerships", qualifiedByName = "mapCarDealershipsToIds")
+    @Mapping(target = "carDealershipIds", source = "carDealerships", qualifiedByName = "mapCarDealershipsToIdsWithAutomobileObject")
     AutomobileDTO toDTO(Automobile automobile);
+
+    @Mapping(target = "id", source = "modelId")
+    @Mapping(target = "carDealershipIds", source = "carDealerships")
+    AutomobileDTO toDTO(MongoAutomobile automobile);
 
     @Mapping(target = "carDealerships", expression = "java(addCarDealerships(automobileDTO.getCarDealershipIds(), carDealershipRepository))")
     Automobile toEntity(AutomobileDTO automobileDTO, @Context CarDealershipRepository carDealershipRepository);
 
-    @Named("mapCarDealershipsToIds")
-    default Set<Integer> mapCarDealershipsToIds(Set<CarDealership> carDealerships) {
+    @Mapping(target = "carDealerships", source = "carDealershipIds")
+    @Mapping(target = "modelId", source = "id")
+    @Mapping(target = "id", ignore = true)
+    MongoAutomobile toEntity(AutomobileDTO automobileDTO);
+
+    @Named("mapCarDealershipsToIdsWithAutomobileObject")
+    default Set<Integer> mapCarDealershipsToIdsWithAutomobileObject(Set<CarDealership> carDealerships) {
         return carDealerships.stream()
                 .map(CarDealership::getId)
                 .collect(Collectors.toSet());
