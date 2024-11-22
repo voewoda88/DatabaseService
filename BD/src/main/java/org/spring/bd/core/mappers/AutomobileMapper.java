@@ -21,7 +21,7 @@ import java.util.Optional;
 public interface AutomobileMapper {
     AutomobileMapper INSTANCE = Mappers.getMapper(AutomobileMapper.class);
 
-    @Mapping(target = "carDealershipIds", source = "carDealerships", qualifiedByName = "mapCarDealershipsToIdsWithAutomobileObject")
+    @Mapping(target = "carDealershipIds", source = "carDealerships", qualifiedByName = "mapCarDealershipsToIds")
     AutomobileDTO toDTO(Automobile automobile);
 
     @Mapping(target = "id", source = "modelId")
@@ -36,12 +36,17 @@ public interface AutomobileMapper {
     @Mapping(target = "id", ignore = true)
     MongoAutomobile toEntity(AutomobileDTO automobileDTO);
 
-    @Named("mapCarDealershipsToIdsWithAutomobileObject")
-    default Set<Integer> mapCarDealershipsToIdsWithAutomobileObject(Set<CarDealership> carDealerships) {
+    @Mapping(target = "carDealerships", source = "carDealerships", qualifiedByName = "mapCarDealershipsToIds")
+    @Mapping(target = "id", ignore = true)
+    MongoAutomobile entityToMongo(Automobile automobile);
+
+    @Named("mapCarDealershipsToIds")
+    default Set<Integer> mapCarDealershipsToIds(Set<CarDealership> carDealerships) {
         return carDealerships.stream()
                 .map(CarDealership::getId)
                 .collect(Collectors.toSet());
     }
+
 
     default Set<CarDealership> addCarDealerships(Set<Integer> ids, CarDealershipRepository carDealershipRepository) {
         Set<CarDealership> carDealerships = new HashSet<>();
