@@ -35,4 +35,12 @@ public class OpenApiConfig {
                 .pathsToMatch("/postgres/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi converter() {
+        return GroupedOpenApi.builder()
+                .group("converter")
+                .pathsToMatch("/converter/**")
+                .build();
+    }
 }
