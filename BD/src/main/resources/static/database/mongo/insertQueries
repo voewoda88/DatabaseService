@@ -1,6 +1,6 @@
 db.automobiles.insertMany([
     {
-        id: 1,
+        model_id: 1,
         brand: 'Toyota',
         model: 'Corolla',
         generation: 'E210',
@@ -12,10 +12,10 @@ db.automobiles.insertMany([
         engine: 'gasoline',
         drive: 'front-wheel drive',
         power: 139,
-        dealer_id: 1
+        dealer_ids: [1]
     },
     {
-        id: 2,
+        model_id: 2,
         brand: 'Honda',
         model: 'Civic',
         generation: 'X',
@@ -27,10 +27,10 @@ db.automobiles.insertMany([
         engine: 'gasoline',
         drive: 'front-wheel drive',
         power: 158,
-        dealer_id: 1
+        dealer_ids: [1]
     },
     {
-        id: 3,
+        model_id: 3,
         brand: 'Ford',
         model: 'Focus',
         generation: 'Mk4',
@@ -42,10 +42,10 @@ db.automobiles.insertMany([
         engine: 'diesel',
         drive: 'front-wheel drive',
         power: 180,
-        dealer_id: 2
+        dealer_ids: [2]
     },
     {
-        id: 4,
+        model_id: 4,
         brand: 'Chevrolet',
         model: 'Malibu',
         generation: 'VIII',
@@ -57,10 +57,10 @@ db.automobiles.insertMany([
         engine: 'gasoline',
         drive: 'front-wheel drive',
         power: 160,
-        dealer_id: 2
+        dealer_ids: [2]
     },
     {
-        id: 5,
+        model_id: 5,
         brand: 'BMW',
         model: '3 Series',
         generation: 'G20',
@@ -72,6 +72,115 @@ db.automobiles.insertMany([
         engine: 'gasoline',
         drive: 'rear-wheel drive',
         power: 255,
-        dealer_id: 3
+        dealer_ids: [3]
     }
 ]);
+
+db.car_dealership.insertMany([
+    {
+        model_id: 1,
+        name: "AutoHub",
+        address: "1234 Elm Street, Cityville",
+        phoneNumber: "+375291234567",
+        email: "info@autohub.com",
+        workingTime: "09:00-18:00",
+        automobileIds: [1]
+    },
+    {
+        model_id: 2,
+        name: "City Motors",
+        address: "4321 Maple Street, Metropolis",
+        phoneNumber: "+375297654321",
+        email: "contact@citymotors.com",
+        workingTime: "10:00-19:00",
+        automobileIds: [2, 3]
+    },
+    {
+        model_id: 3,
+        name: "DriveZone",
+        address: "789 Oak Street, Townsville",
+        phoneNumber: "+375293214567",
+        email: "support@drivezone.com",
+        workingTime: "08:00-17:00",
+        automobileIds: [4, 5]
+    }
+]);
+
+db.buyer.insertMany([
+    {
+        model_id: 1,
+        name: "Alice Smith",
+        email: "alice.smith@example.com",
+        phoneNumber: "+375291234567"
+    },
+    {
+        model_id: 2,
+        name: "Bob Johnson",
+        email: "bob.johnson@example.com",
+        phoneNumber: "+375291234568"
+    },
+    {
+        model_id: 3,
+        name: "Charlie Brown",
+        email: "charlie.brown@example.com",
+        phoneNumber: "+375291234569"
+    }
+]);
+
+db.employee.insertMany([
+    {
+        model_id: 1,
+        name: "John Doe",
+        position: "Manager",
+        salary: 50000,
+        carDealershipId: 1
+    },
+    {
+        model_id: 2,
+        name: "Jane Smith",
+        position: "Salesperson",
+        salary: 40000,
+        carDealershipId: 2
+    },
+    {
+        model_id: 3,
+        name: "Emily Davis",
+        position: "Technician",
+        salary: 45000,
+        carDealershipId: 3
+    }
+]);
+
+db.order.insertMany([
+    {
+        model_id: 1,
+        finalValue: 15000,
+        createdDate: "2023-09-15",
+        status: "open",
+        automobileId: 1,
+        carDealershipId: 1,
+        employeeId: 1,
+        buyerId: 1
+    },
+    {
+        model_id: 2,
+        finalValue: 20000,
+        createdDate: "2023-10-01",
+        status: "pending",
+        automobileId: 2,
+        carDealershipId: 2,
+        employeeId: 2,
+        buyerId: 2
+    },
+    {
+        model_id: 3,
+        finalValue: 18000,
+        createdDate: "2023-11-05",
+        status: "closed",
+        automobileId: 3,
+        carDealershipId: 3,
+        employeeId: 3,
+        buyerId: 3
+    }
+]);
+
