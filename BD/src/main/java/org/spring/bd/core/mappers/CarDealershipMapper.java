@@ -6,6 +6,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 import org.spring.bd.core.dto.CarDealershipDTO;
+import org.spring.bd.entities.nosql.MongoCarDealership;
 import org.spring.bd.entities.sql.Automobile;
 import org.spring.bd.entities.sql.CarDealership;
 import org.spring.bd.repositories.sql.AutomobileRepository;
@@ -21,8 +22,21 @@ public interface CarDealershipMapper {
     @Mapping(target = "automobileIds", source = "automobiles", qualifiedByName = "mapAutomobilesToIds")
     CarDealershipDTO toDTO(CarDealership carDealership);
 
+    @Mapping(target = "automobileIds", source = "automobiles")
+    @Mapping(target = "id", source = "modelId")
+    CarDealershipDTO toDTO(MongoCarDealership mongoCarDealership);
+
     @Mapping(target = "automobiles", expression = "java(mapIdsToAutomobiles(carDealershipDTO.getAutomobileIds(), automobileRepository))")
     CarDealership toEntity(CarDealershipDTO carDealershipDTO, @Context AutomobileRepository automobileRepository);
+
+    @Mapping(target = "automobiles", source = "automobileIds")
+    @Mapping(target = "modelId", source = "id")
+    @Mapping(target = "id", ignore = true)
+    MongoCarDealership toEntity(CarDealershipDTO carDealershipDTO);
+
+    @Mapping(target = "automobiles", source = "automobiles", qualifiedByName = "mapAutomobilesToIds")
+    @Mapping(target = "id", ignore = true)
+    MongoCarDealership entityToMongo(CarDealership carDealership);
 
     @Named("mapAutomobilesToIds")
     default Set<Integer> mapAutomobilesToIds(Set<Automobile> automobiles) {
