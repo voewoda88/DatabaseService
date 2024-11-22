@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/mongo/api/v1/automobiles")
+@RequestMapping("/mongo/api/v1/automobile")
 @Tag(name = "MongoAutomobileController", description = "Provides CRUD-operations with records in \\\"automobiles\\\" table")
 public class MongoAutomobileApiController extends AbstractAutomobileControllers {
     @Autowired
